@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/hamcrest-core-1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/simple-common-6.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/gson-2.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/simple-xml-2.7.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/simple-transport-6.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/simple-http-6.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/junit-4.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/json-20140107.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
