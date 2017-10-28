@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>  
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+          
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>Realizar Pedido</title>
+  </head>
+
+<body >
+<nav>
+  <div style="background-color: #263238;" class="nav-wrapper">
+     <a href="#" class="brand-logo center">Realizar Pedido</a>
+     <a href="#" class="brand-logo">Libri Factories</a>
+     <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Home</a></li>
+        <li><a href="badges.html">Contato</a></li>      
+    </ul>
+  </div>
+</nav>
+<style>
+#textoPrincipal{
+    margin-top:80px;    
+}
+.botoes{
+  margin-top: 20px;
+  width:50%;
+  margin:auto;
+  text-align: center;
+  margin-bottom: 00px;
+}
+</style>
+     
+<div class="container" id= "textoPrincipal">
+    <div id = "camposSelect">
+      <div class="row">
+         <div class = "row">
+             <div class="input-field col s6">
+                <select id="tipoEmbalagem" required>
+                  <option value="" disabled selected>Tipo de embalagem</option>
+                  <option value="1">Caixas K</option>
+                  <option value="2">Pouche com Ziper 250g</option>
+                  <option value="3">Pouche sem Ziper 250g</option>
+                  <option value="4">Flaconete 1ml</option>
+                  <option value="5">Flaconete 4ml</option>
+                  <option value="6">Flaconete 10ml</option>
+                  <option value="7">Flaconete 1ml</option>
+                  <option value="8">Frasco 250ml</option>
+                  <option value="9">Frasco 100ml</option>
+                  <option value="10">Potinho 100g</option>
+                  <option value="11">Potinho 150g</option>
+                  <option value="12">Frasco para Aromatizador 100ml</option>
+                  <option value="13">Frasco de Spray 100ml</option>
+                  <option value="14">Frasco de Spray 330ml</option>
+                </select>
+                <label>Tipo de embalagem</label>  
+             </div> 
+         <div class="input-field col s6">  
+                  <select id="corEmbalagem" required>
+                    <option value="" disabled selected>Cor da embalagem</option>
+                    <option value="1">Transparente</option>
+                    <option value="2">Branco</option>  
+                    <option value="3">Preto</option>       
+                    <option value="4">Rosa</option>
+                    <option value="5">Azul</option>
+                  </select>
+                <label>Cor da embalagem</label>
+              </div>
+         </div>       
+         <div class="row">
+             <div class="input-field col s6">
+                  <select id="tipoTampa" required>
+                    <option value="" disabled selected>Tipo de tampa</option>
+                    <option value="1">Tampa de encaixe</option>
+                    <option value="2">Tampa de rosca</option>  
+                    <option value="3">Tampa de rosca com spray</option>
+                    <option value="4">Tampa de rosca com contador</option>
+                  </select>
+                <label>Tipo da tampa</label>
+             </div>    
+             <div class="input-field col s6">
+                  <select id="corTampa" required>
+                    <option value="" disabled selected>Cor da tampa</option>
+                    <option value="1">Transparente</option>
+                    <option value="2">Branco</option>
+                    <option value="1">Preto</option>    
+                    <option value="4">Rosa</option>
+                    <option value="5">Azul</option>
+                  </select>
+                  <label>Cor da tampa</label>
+             </div>
+         </div>
+         <div class="row">                 
+              <div class="input-field col s6">
+                  <select id="materialDesejado" required>
+                    <option value="" disabled selected>Material Desejado</option>
+                    <option value="1">PET - Polietileno tereftalato</option>
+                    <option value="2">PVC - Policloreto de polivinila/option>
+                    <option value="3">PP - Polipropileno</option>
+                    <option value="4">PS - Poliestireno</option>
+                    <option value="5">EVA - Acetato-vinilo de etileno</option>
+                  </select>
+                  <label>Material Desejado</label>
+                  <p>Clique <a href="catalogoProduto.html">aqui</a> para mais informações sobre o material.</p>   
+              </div>
+              <div class="input-field col s6">
+                 <form >       
+                    <input id="quantidade" required type="number" placeholder="Quantidade de embalagens" class="validate" min="50" max="200">
+                    <label>Quantidade de embalagens</label>          
+                 </form>
+              </div>        
+         </div>
+      </div>
+    </div>
+</div>
+<div class="botoes">
+   <button onclick= "clicouBotao()" onclick="aramazenaValores()" id="adicionaItem" class="btn waves-effect  red darken-1" type="submit" name="action">Adicionar Item ao Carrinho
+      <i class="material-icons right">send</i>  
+   </button>
+   <button data-target="modal1" class="btn modal-trigger waves-effect teal darken-1" name="action" onclick="exibe()">Visualizar Carrinho</button>
+</div>
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Carrinho</h4>
+      <table class="highlight responsive-table centered">
+        <thead>
+          <tr>
+              <th>Item</th>
+              <th>Quantidade</th>
+              <th>Cor da tampa</th>
+			  <th>Cor da embalagem</th>
+			  <th>Preço</th>
+			  <th></th>
+          </tr>
+        </thead>
+
+        <tbody id="carrinho">
+          <tr>
+            <td>Frasco</td>
+            <td><input class ="required" type="number" value="50" style="text-align: center" class="validate" min="50" max="200" step="10"></td>
+            <td>Azul</td>
+			<td>Transparente</td>
+			<td>R$60.00</td>
+			<td><i class="small material-icons">delete_forever</i><td>
+          </tr>
+          <tr>
+            <td>Frasco</td>
+            <td><input class ="required" type="number" value="50" style="text-align: center" class="validate" min="50" max="200" step="10"></td>
+            <td>Azul</td>
+			<td>Transparente</td>
+			<td>R$60.00</td>
+			<td><i class="small material-icons">delete_forever</i><td>
+          </tr>
+          <tr>
+           <td>Frasco</td>
+            <td><input class ="required" type="number" value="50" style="text-align: center" class="validate" min="50" max="200" step="10"></td>
+            <td>Azul</td>
+			<td>Transparente</td>
+			<td>R$60.00</td>
+			<td><i class="small material-icons">delete_forever</i><td>
+          </tr>
+        </tbody>
+      </table>
+	  <hr>
+	  <h4 align="right">Valor Total: R$<span id="valorTotal">0,00</span> </h4>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Continuar Comprando</a>
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Finalizar Compra</a>
+    </div>
+</div>
+<script src="pedido.js"></script>
+</body>
+</html>

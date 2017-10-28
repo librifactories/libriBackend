@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+ <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+   <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  
+  <meta charset="UTF-8">
+  <title>Responder Cliente</title>
+</head>
+
+<body >
+<nav>
+    <div style="background-color: #263238;" class="nav-wrapper">
+      <a href="#" class="brand-logo center">Responder Cliente</a>
+      <a href="#" class="brand-logo">Libri Factories</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Home</a></li>
+        <li><a href="badges.html">Contato</a></li>
+      
+      </ul>
+    </div>
+  </nav>
+
+<style>
+#textoPrincipal{
+    margin-top:80px;    
+}
+</style>
+
+    
+<div class="container" id= "textoPrincipal">  
+  <ul class="collection">    
+
+    <li class="collection-item avatar">
+      <a  href="#modal1" class="modal-trigger collection-item"><span class="badge">1 Nova Mensagem</span>
+      <img src="librifactories.jpg" alt="" class="circle" >      
+      <span class="title">Assunto</span>
+      <p>Usuário 1 </p>
+      <p>email@email.com</p>
+      </a>
+    </li>     
+    
+    <li class="collection-item avatar">      
+      <a  href="#modal1" class="modal-trigger collection-item"><span class="badge">1 Nova Mensagem</span>
+      <img src="librifactories.jpg" alt="" class="circle">      
+      <span class="title">Assunto</span>
+      <p>Usuário 2 </p>
+      <p>email@email.com</p>
+      </a>
+    </li>
+   
+    <li class="collection-item avatar">      
+     <a  href="#modal1" class="modal-trigger collection-item"><span class="badge">1 Nova Mensagem</span>
+      <img src="librifactories.jpg" alt="" class="circle">      
+      <span class="title">Assunto</span>
+      <p>Usuário 3 </p>
+      <p>email@email.com</p>
+      </a>
+    </li>
+    
+    <li class="collection-item avatar">      
+     <a  href="#modal1" class="modal-trigger collection-item"><span class="badge">1 Nova Mensagem</span>
+      <img src="librifactories.jpg" alt="" class="circle">      
+      <span class="title">Assunto</span>
+      <p>Usuário 4 </p>
+      <p>email@email.com</p>
+      </a>
+    </li>    
+  </ul>   
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+     <h4>Enviar Mensagem</h4>
+     <div class="row">
+      <form class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">email</i>
+            <input id="icon_prefix" type="email" class="validate">
+             <label for="icon_prefix">Email</label>
+          </div>
+          <div class="input-field col s12">
+            <i class="material-icons prefix">edit</i>
+            <textarea id="textarea1" class="materialize-textarea"></textarea>
+            <label for="icon_telephone">Mensagem</label>
+          </div>
+        </div>
+      </form>
+    </div>
+	<button aling="right" class="btn waves-effect waves-light" type="submit" name="action">Enviar
+    <i class="material-icons right">send</i>
+    </button>
+   </div>	
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
+    </div>
+</div>
+
+</div>
+
+
+
+<script >
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+  $(document).ready(function() {
+    $('input#input_text, textarea#textarea1').characterCounter();
+  });
+  $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });  
+  </script>
+
+  <!--
+  $('.modal').modal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      inDuration: 300, // Transition in duration
+      outDuration: 200, // Transition out duration
+      startingTop: '4%', // Starting top style attribute
+      endingTop: '10%', // Ending top style attribute
+      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+        alert("Ready");
+        console.log(modal, trigger);
+      },
+      complete: function() { alert('Closed'); } // Callback for Modal close
+    }
+  );
+  -->
+
+</body>
+
+</html>
