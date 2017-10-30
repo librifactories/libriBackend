@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TIS-WEBSERVICE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/TIS_WEBSERVICE_jar/TIS-WEBSERVICE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
