@@ -1,5 +1,8 @@
-import org.json.JSONArray;
+package processos;
+
 import org.json.JSONObject;
+import processos.Produto;
+import utilitario.JsonFormatter;
 
 public class ItemPedido implements JsonFormatter {
 

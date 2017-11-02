@@ -1,14 +1,12 @@
-import java.awt.Desktop;
+package utilitario;
+
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.net.URI;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import interfaceGrafica.LIBRIGUI;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -18,6 +16,7 @@ import org.simpleframework.http.core.Container;
 import org.simpleframework.http.core.ContainerSocketProcessor;
 import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
+import processos.*;
 
 public class FORMServer implements Container, Runnable {
 
