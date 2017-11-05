@@ -66,6 +66,7 @@ public class FORMServer implements Container, Runnable {
 	private void opFinalizarPedido(Query query, PrintStream body, Cliente cliente) {
 		JSONObject json = new JSONObject();
 		try {
+			cliente.getPedidoAtual().fecharPedido();
 			cliente.getPedidos().add(cliente.getPedidoAtual());
 			cliente.setPedidoAtual(new Pedido());
 			json.put("status", "OK");
