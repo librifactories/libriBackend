@@ -22,6 +22,7 @@ import org.simpleframework.transport.connect.SocketConnection;
 public class FORMServer implements Container, Runnable {
 
 	private static List<Cliente> clientes = new ArrayList<>();
+	private static List<Funcionario> funcionarios = new ArrayList<>();
 	private static ContainerSocketProcessor servidor;
 	private static Connection conexao;
 
@@ -41,16 +42,14 @@ public class FORMServer implements Container, Runnable {
 		}
 	}
 
-	private void opListarProdutos(Query query, PrintStream body, Cliente cliente) {
-	/*	JSONArray jsonProdutos =  new JSONArray();
+	private void opListarItensCarrinho(Query query, PrintStream body, Cliente cliente) {
+		JSONArray jsonProdutos =  new JSONArray();
 		if (!cliente.getPedidoAtual().getProdutos().isEmpty()) {
 			for (ItemPedido p : cliente.getPedidoAtual().getProdutos()) {
 				jsonProdutos.put(p.toJson());
 			}
 		}
 		body.println(jsonProdutos);
-		*/
-
 	}
 
 	private void opListarPedidos(Query query, PrintStream body, Cliente cliente) {
@@ -67,6 +66,7 @@ public class FORMServer implements Container, Runnable {
 	private void opFinalizarPedido(Query query, PrintStream body, Cliente cliente) {
 		JSONObject json = new JSONObject();
 		try {
+			cliente.getPedidoAtual().fecharPedido();
 			cliente.getPedidos().add(cliente.getPedidoAtual());
 			cliente.setPedidoAtual(new Pedido());
 			json.put("status", "OK");
@@ -81,15 +81,52 @@ public class FORMServer implements Container, Runnable {
 		}
 	}
 
-	public Cliente autenticarCliente(Query query) {
-		Cliente retornar = null;
+	public Usuario autenticarUsuario(Query query) {
+		Usuario retornar = null;
 		for (Cliente cliente : clientes) {
 			if (cliente.autenticacao(query.get("usuario"), query.get("senha"))) {
 				retornar = cliente;
 				break;
 			}
 		}
+		for (Funcionario funcionario : funcionarios) {
+			if (funcionario.autenticacao(query.get("usuario"), query.get("senha"))) {
+				retornar = funcionario;
+				break;
+			}
+		}
 		return retornar;
+	}
+
+	public void opRealizarLogin(Query query, PrintStream body, Usuario usuario) {
+		JSONObject json = new JSONObject();
+		if (usuario.getNome() != null && usuario.getUsuario() != null && usuario.getSenha() != null) {
+			json.put("nome", usuario.getNome());
+			json.put("usuario", usuario.getUsuario());
+			json.put("senha", usuario.getSenha());
+			if (usuario instanceof Cliente) json.put("tipo", "1");
+			else if (usuario instanceof Funcionario) json.put("tipo", "2-" + ((Funcionario) usuario).getCargo());
+			body.println(json);
+		}
+	}
+
+	public void opCadastrarCliente(Query query, PrintStream body) {
+		String status = "ERRO";
+		String usuario = query.get("usuario");
+		String nome = query.get("nome");
+		String sobrenome = query.get("sobrenome");
+		String email = query.get("email");
+		String senha = query.get("senha");
+		Cliente c = new Cliente(usuario, senha, nome, sobrenome, email);
+		if(!clientes.contains(c)) {
+			clientes.add(c);
+			status = "OK";
+			System.out.println(c.getUsuario());
+		}
+		JSONObject jason = new JSONObject();
+		jason.put("operacao", "cadastrarCliente");
+		jason.put("status", status);
+		body.println(jason);
 	}
 
 	public void handle(Request request, Response response) {
@@ -115,25 +152,33 @@ public class FORMServer implements Container, Runnable {
 			if (operacao == null)
 				operacao="";
 
-			Cliente usuarioAtual = autenticarCliente(query);
-			if (usuarioAtual != null) {
+			Usuario usuarioAtual;
 
 				switch (operacao) {
 					case "novoProduto":
-						opNovoProduto(query, body, usuarioAtual);
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opNovoProduto(query, body, (Cliente) usuarioAtual);
 						break;
-					case "listarProdutos":
-						opListarProdutos(query, body, usuarioAtual);
+					case "listarItensCarrinho":
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opListarItensCarrinho(query, body, (Cliente) usuarioAtual);
 						break;
 					case "finalizarPedido":
-						opFinalizarPedido(query, body, usuarioAtual);
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opFinalizarPedido(query, body, (Cliente) usuarioAtual);
 						break;
 					case "listarPedidos":
-						opListarPedidos(query, body, usuarioAtual);
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opListarPedidos(query, body, (Cliente) usuarioAtual);
+						break;
+					case "realizarLogin":
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null) opRealizarLogin(query, body, usuarioAtual);
+						break;
+					case "cadastrarCliente":
+						opCadastrarCliente(query, body);
 						break;
 				}
-
-			}
 
 			body.close();
 		} catch (Exception e) {
@@ -151,7 +196,12 @@ public class FORMServer implements Container, Runnable {
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
 
-		clientes.add(new Cliente("DarkPink", "Arvore"));
+		clientes.add(new Cliente("DarkSider", "123", "Lucas", "Silveira", ""));
+		clientes.add(new Cliente("PinkTree", "123", "Isabela","",""));
+		clientes.add(new Cliente("Badaro15Br", "123", "Rafael","",""));
+		funcionarios.add(new Funcionario("AprovarEncomendas", "123", "Brian", "AprovarEncomenda", "",""));
+		funcionarios.add(new Funcionario("ControleEstoque", "123", "Igor", "ControleEstoque","",""));
+		funcionarios.add(new Funcionario("ControlePedidos", "123", "Lucas", "ControlePedidos","",""));
 
 		System.out.println("Tecle ENTER para interromper o servidor...");
 		System.in.read();

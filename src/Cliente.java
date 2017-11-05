@@ -1,19 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente {
+public class Cliente extends Usuario{
 
     private List<Pedido> pedidos = new ArrayList<>();
     private Pedido pedidoAtual = new Pedido();
-    private String usuario, senha;
 
-    public Cliente(String usuario, String senha) {
-        this.usuario = usuario;
-        this.senha = senha;
+    public Cliente(String usuario, String senha, String nome, String sobrenome, String email) {
+        super(usuario, senha, nome, sobrenome, email);
     }
 
     public boolean autenticacao(String usuario, String senha) {
-        return this.usuario.equals(usuario) && this.senha.equals(senha);
+        return this.getUsuario().equals(usuario) && this.getSenha().equals(senha);
     }
 
     public List<Pedido> getPedidos() {
@@ -26,5 +24,14 @@ public class Cliente {
 
     public void setPedidoAtual(Pedido pedidoAtual) {
         this.pedidoAtual = pedidoAtual;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        boolean igual = false;
+        if( o instanceof Cliente && ((Cliente) o).getEmail().equals(this.getEmail())){
+            igual = true;
+        }
+        return igual;
     }
 }

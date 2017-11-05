@@ -9,7 +9,7 @@ public class Pedido implements JsonFormatter {
 
     private float precoTotal;
     private String id, situacao;
-    private Calendar dataCompra = Calendar.getInstance(), prazoEntrega = Calendar.getInstance();
+    private Calendar dataCompra, prazoEntrega;
     private List<ItemPedido> produtos = new ArrayList<>();
 
     public Pedido() {
@@ -30,6 +30,12 @@ public class Pedido implements JsonFormatter {
         for (ItemPedido p : produtos) {
             this.precoTotal += p.getPrecoTotal();
         }
+    }
+
+    public void fecharPedido() {
+        this.dataCompra = Calendar.getInstance();
+        this.prazoEntrega = Calendar.getInstance();
+        this.prazoEntrega.add(Calendar.MONTH, 1);
     }
 
     @Override
