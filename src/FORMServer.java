@@ -1,14 +1,9 @@
-import java.awt.Desktop;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.net.URI;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.simpleframework.http.Query;
@@ -23,13 +18,14 @@ public class FORMServer implements Container, Runnable {
 
 	private static List<Cliente> clientes = new ArrayList<>();
 	private static List<Funcionario> funcionarios = new ArrayList<>();
+
 	private static ContainerSocketProcessor servidor;
 	private static Connection conexao;
 
 	private void opNovoProduto(Query query, PrintStream body, Cliente cliente) {
 		JSONObject json = new JSONObject();
 		try {
-			cliente.getPedidoAtual().adicionarProduto(new ItemPedido(query.get("nome"), query.getFloat("preco"), query.get("material") ,query.get("corTampa"),query.get("corEmbalagem"),query.get("tipoTampa"), query.getInteger("quantidade")));
+			cliente.getPedidoAtual().adicionarProduto(new Item(query.get("nome"), query.getFloat("preco"), query.get("material") ,query.get("corTampa"),query.get("corEmbalagem"),query.get("tipoTampa"), query.getInteger("quantidade")));
 			json.put("status", "OK");
 		}
 		catch (NumberFormatException e) {
@@ -45,7 +41,7 @@ public class FORMServer implements Container, Runnable {
 	private void opListarItensCarrinho(Query query, PrintStream body, Cliente cliente) {
 		JSONArray jsonProdutos =  new JSONArray();
 		if (!cliente.getPedidoAtual().getProdutos().isEmpty()) {
-			for (ItemPedido p : cliente.getPedidoAtual().getProdutos()) {
+			for (Item p : cliente.getPedidoAtual().getProdutos()) {
 				jsonProdutos.put(p.toJson());
 			}
 		}
@@ -188,7 +184,6 @@ public class FORMServer implements Container, Runnable {
 
 	public static void iniciar() throws Exception {
 		int porta = 880;
-
 		// Configura uma conexão soquete para o servidor HTTP.
 		Container container = new FORMServer();
 		servidor = new ContainerSocketProcessor(container);

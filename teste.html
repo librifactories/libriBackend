@@ -32,7 +32,7 @@
     <input type="button" onclick="query('listarPedidos');" value="Listar pedidos">
     <input type="button" onclick="query('finalizarPedido');" value="Efetuar compra"><br>
     <hr>
-    OLHA O CONSOLE
+    <span id="oi">ABC</span>
 </body>
 
 <script>
@@ -42,6 +42,7 @@
             url: 'http://127.0.0.1:880?usuario=' + $("#usuario").val() + '&senha=' + $("#senha").val() + '&operacao='+query,
             success: function(result) {
                 console.log(result);
+                //$("#oi").html(result[0].produtos[0].produto.nome);
             }
         }
         );
