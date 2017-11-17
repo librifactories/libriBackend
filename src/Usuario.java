@@ -1,3 +1,5 @@
+package processos;
+
 public class Usuario {
 
     private String usuario, senha, nome, sobrenome, email;
