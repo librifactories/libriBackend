@@ -1,19 +1,23 @@
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Pedido implements JsonFormatter {
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
-    private float precoTotal;
+public class Encomenda implements JsonFormatter {
+
     private String id, situacao;
-    private Calendar dataCompra, prazoEntrega;
+    private Calendar dataPedido;
     private List<Item> produtos = new ArrayList<>();
+    private float precoTotal;
 
-    public Pedido() {
-        this.situacao = "Aguardando entrega";
+    public Encomenda() {
         this.id = "#" + String.valueOf(new Random().nextInt(10000-1) + 1);
+        this.situacao = "Aguardando aprovacao";
+        this.dataPedido = Calendar.getInstance();
     }
 
     public void adicionarProduto(Item p) {
@@ -31,22 +35,31 @@ public class Pedido implements JsonFormatter {
         }
     }
 
-    public void fecharPedido() {
-        this.dataCompra = Calendar.getInstance();
-        this.prazoEntrega = Calendar.getInstance();
-        this.prazoEntrega.add(Calendar.MONTH, 1);
+    public String getId() {
+        return id;
+    }
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public Calendar getDataPedido() {
+        return dataPedido;
+    }
+
+    public float getPrecoTotal() {
+        return precoTotal;
     }
 
     @Override
-    public JSONObject toJson() {
+    public JSONObject toJson(){
         calcularPrecoTotal();
         JSONObject obj = new JSONObject();
         obj.put("id", this.id);
         obj.put("situacao", this.situacao);
         obj.put("precoTotal", this.precoTotal);
         SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        obj.put("dataCompra", s.format(this.dataCompra.getTime()));
-        obj.put("prazoEntrega", s.format(this.prazoEntrega.getTime()));
+        obj.put("dataPedido", s.format(this.dataPedido.getTime()));
         JSONArray jsonProdutos = new JSONArray();
         for (Item p : this.produtos) {
             jsonProdutos.put(p.toJson());

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>PEDIDO ATUAL</h1>
+    <label>Nome:</label><br>
+    <input type="text" id="nome"><br>
+    <label>Preço:</label><br>
+    <input type="text" id="preco"><br>
+    <label>Material:</label><br>
+    <input type="text" id="material"><br>
+    <label>Cor da Tampa:</label><br>
+    <input type="text" id="corTampa"><br>
+    <label>Cor da embalagem:</label><br>
+    <input type="text" id="corEmbalagem"><br>
+    <label>Tipo da tampa:</label><br>
+    <input type="text" id="tipoTampa"><br>
+    <label>Quantidade:</label><br>
+    <input type="text" id="quantidade"><br>
+    <br>
+    <label>Usuário:</label>
+    <input type="text" id="usuario">
+    <label>Senha:</label>
+    <input type="text" id="senha">
+    <hr>
+    <input type="button" onclick="query('novoProduto');" value="Adicionar produto"><br>
+    <hr>
+    <input type="button" onclick="query('listarPedidos');" value="Listar pedidos">
+    <input type="button" onclick="query('finalizarPedido');" value="Efetuar compra"><br>
+    <hr>
+    <span id="oi">ABC</span>
+</body>
+
+<script>
+    function ajaxBackend(query) {
+        $.ajax(
+            {
+            url: 'http://127.0.0.1:880?usuario=' + $("#usuario").val() + '&senha=' + $("#senha").val() + '&operacao='+query,
+            success: function(result) {
+                console.log(result);
+                //$("#oi").html(result[0].produtos[0].produto.nome);
+            }
+        }
+        );
+    }    
+
+    function query(op) {
+        if (op == 'novoProduto')
+            ajaxBackend('novoProduto&nome=' + $('#nome').val() + '&preco=' + $('#preco').val() + '&material=' + $('#material').val() + '&corTampa=' + $('#corTampa').val() + '&corEmbalagem=' + $('#corEmbalagem').val() + '&tipoTampa=' + $('#tipoTampa').val() + '&quantidade=' + $('#quantidade').val());
+        else ajaxBackend(op);
+    }
+    
+</script>
+
+</html>
