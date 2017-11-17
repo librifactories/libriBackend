@@ -54,8 +54,6 @@ public class LIBRIGUI {
             }
         });
 
-
-
         panel.add(but1);
         panel.add(but2);
         panel.add(status);

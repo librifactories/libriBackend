@@ -1,17 +1,17 @@
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class ItemPedido implements JsonFormatter {
+public class Item implements JsonFormatter {
 
     private Produto produto;
     private int quantidade;
 
-    public ItemPedido(Produto produto, int quantidade) {
+    public Item(Produto produto, int quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
     }
 
-    public ItemPedido(String nome, float preco, String material,String corTampa,String corEmbalagem,String tipoTampa, int quantidade) {
+    public Item(String nome, float preco, String material, String corTampa, String corEmbalagem, String tipoTampa, int quantidade) {
         this.produto = new Produto(nome, preco, material, corTampa, corEmbalagem, tipoTampa);
         this.quantidade = quantidade;
     }
