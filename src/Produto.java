@@ -1,5 +1,3 @@
-package processos;
-
 import org.json.JSONObject;
 
 public class Produto implements JsonFormatter {
