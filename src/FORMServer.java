@@ -18,6 +18,7 @@ public class FORMServer implements Container, Runnable {
 
 	private static List<Cliente> clientes = new ArrayList<>();
 	private static List<Funcionario> funcionarios = new ArrayList<>();
+	private static List<Pedido> pedidosAProduzir = new ArrayList<>();
 
 	private static ContainerSocketProcessor servidor;
 	private static Connection conexao;
@@ -25,7 +26,7 @@ public class FORMServer implements Container, Runnable {
 	private void opNovoProduto(Query query, PrintStream body, Cliente cliente) {
 		JSONObject json = new JSONObject();
 		try {
-			cliente.getPedidoAtual().adicionarProduto(new Item(query.get("nome"), query.getFloat("preco"), query.get("material") ,query.get("corTampa"),query.get("corEmbalagem"),query.get("tipoTampa"), query.getInteger("quantidade")));
+			cliente.getPedidoAtual().adicionarProduto(new Item(query.get("nome"), query.get("material"), query.get("corTampa"),query.get("corEmbalagem"),query.get("tipoTampa"), query.getInteger("quantidade")));
 			json.put("status", "OK");
 		}
 		catch (NumberFormatException e) {
@@ -59,11 +60,26 @@ public class FORMServer implements Container, Runnable {
 		body.println(jsonProdutos);
 	}
 
+	private void opListarPedidos(Query query, PrintStream body) {
+		//pedidos.add(pedidoAtual);
+		JSONArray jsonProdutos = new JSONArray();
+		if (!pedidosAProduzir.isEmpty()) {
+			for (Pedido p : pedidosAProduzir) {
+				jsonProdutos.put(p.toJson());
+			}
+		}
+		body.println(jsonProdutos);
+	}
+
 	private void opFinalizarPedido(Query query, PrintStream body, Cliente cliente) {
 		JSONObject json = new JSONObject();
 		try {
+			for (Item i : cliente.getPedidoAtual().getProdutos()) {
+				i.iniciouProducao();
+			}
 			cliente.getPedidoAtual().fecharPedido();
 			cliente.getPedidos().add(cliente.getPedidoAtual());
+			pedidosAProduzir.add(cliente.getPedidoAtual());
 			cliente.setPedidoAtual(new Pedido());
 			json.put("status", "OK");
 		}
@@ -125,6 +141,26 @@ public class FORMServer implements Container, Runnable {
 		body.println(jason);
 	}
 
+	public void opProdutoFinalizado(Query query, PrintStream body, Funcionario funcionario) {
+		JSONObject json = new JSONObject();
+		json.put("operacao", "finalizarProduto");
+		try {
+			loop1:
+			for (Pedido p : pedidosAProduzir) {
+				for (Item i : p.getProdutos()) {
+					if (i.getProduto().getNome().equals(query.get("nome"))) {
+						json.put("status", "Produto finalizado com sucesso");
+						i.finalizouProducao();
+						break loop1;
+					}
+				}
+			}
+		} catch(Exception e) {
+			json.put("status", "ERRO");
+		}
+		body.println(json);
+	}
+
 	public void handle(Request request, Response response) {
 		try {
 			if (LIBRIGUI.thread.isInterrupted()) {
@@ -165,7 +201,14 @@ public class FORMServer implements Container, Runnable {
 						break;
 					case "listarPedidos":
 						usuarioAtual = autenticarUsuario(query);
-						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opListarPedidos(query, body, (Cliente) usuarioAtual);
+						if (usuarioAtual != null) {
+							if (usuarioAtual instanceof Cliente) {
+								opListarPedidos(query, body, (Cliente) usuarioAtual);
+							}
+							else if (usuarioAtual instanceof Funcionario) {
+								opListarPedidos(query, body);
+							}
+						}
 						break;
 					case "realizarLogin":
 						usuarioAtual = autenticarUsuario(query);
@@ -173,6 +216,10 @@ public class FORMServer implements Container, Runnable {
 						break;
 					case "cadastrarCliente":
 						opCadastrarCliente(query, body);
+						break;
+					case "produtoFinalizado":
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null) opProdutoFinalizado(query, body, (Funcionario) usuarioAtual);
 						break;
 				}
 
@@ -203,7 +250,6 @@ public class FORMServer implements Container, Runnable {
 
 		conexao.close();
 		servidor.stop();
-
 	}
 
 	@Override

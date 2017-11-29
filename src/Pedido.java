@@ -14,6 +14,7 @@ public class Pedido implements JsonFormatter {
 
     public Pedido() {
         this.situacao = "Aguardando entrega";
+        this.setPrazoEntrega();
         this.id = "#" + String.valueOf(new Random().nextInt(10000-1) + 1);
     }
 
@@ -25,6 +26,15 @@ public class Pedido implements JsonFormatter {
         return this.produtos;
     }
 
+    private void setPrazoEntrega() {
+        float tempoEstimado = 0;
+        for (Item i : this.getProdutos()) {
+            tempoEstimado = Math.max(tempoEstimado, i.getProduto().getTempoMedio());
+        }
+        prazoEntrega = Calendar.getInstance();
+        prazoEntrega.add(Calendar.DATE, (int) tempoEstimado);
+    }
+
     public void calcularPrecoTotal() {
         this.precoTotal = 0;
         for (Item p : produtos) {
@@ -34,8 +44,7 @@ public class Pedido implements JsonFormatter {
 
     public void fecharPedido() {
         this.dataCompra = Calendar.getInstance();
-        this.prazoEntrega = Calendar.getInstance();
-        this.prazoEntrega.add(Calendar.MONTH, 1);
+        setPrazoEntrega();
     }
 
     @Override
