@@ -1,6 +1,7 @@
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,6 +245,8 @@ public class FORMServer implements Container, Runnable {
 		funcionarios.add(new Funcionario("AprovarEncomendas", "123", "Brian", "AprovarEncomenda", "",""));
 		funcionarios.add(new Funcionario("ControleEstoque", "123", "Igor", "ControleEstoque","",""));
 		funcionarios.add(new Funcionario("ControlePedidos", "123", "Lucas", "ControlePedidos","",""));
+
+		Produto.inicializar();
 
 		System.out.println("Tecle ENTER para interromper o servidor...");
 		System.in.read();

@@ -47,6 +47,10 @@ public class Pedido implements JsonFormatter {
         setPrazoEntrega();
     }
 
+    public Calendar getPrazoEntrega() {
+        return prazoEntrega;
+    }
+
     @Override
     public JSONObject toJson() {
         calcularPrecoTotal();
