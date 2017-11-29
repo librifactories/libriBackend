@@ -10,6 +10,7 @@ public class Item implements JsonFormatter {
     private Produto produto;
     private int quantidade;
     private Calendar data;
+    private boolean finalizado;
 
     public Item(Produto produto, int quantidade) {
         this.produto = produto;
@@ -48,6 +49,7 @@ public class Item implements JsonFormatter {
         } else {
             this.produto.setTempoMedio((this.produto.getTempoMedio() + diferenca) / 2);
         }
+        this.finalizado = true;
         System.out.println("Tempo Médio de produção desse produto lindinho: " + this.produto.getTempoMedio());
     }
 
@@ -56,6 +58,7 @@ public class Item implements JsonFormatter {
         JSONObject obj = new JSONObject();
         obj.put("produto", this.produto.toJson());
         obj.put("quantidade", this.quantidade);
+        obj.put("finalizado", this.finalizado);
         return obj;
     }
 }

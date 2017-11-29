@@ -18,6 +18,10 @@ public class Pedido implements JsonFormatter {
         this.id = "#" + String.valueOf(new Random().nextInt(10000-1) + 1);
     }
 
+    public String getId() {
+        return this.id;
+    }
+
     public void adicionarProduto(Item p) {
         this.produtos.add(p);
     }

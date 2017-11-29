@@ -148,11 +148,15 @@ public class FORMServer implements Container, Runnable {
 		try {
 			loop1:
 			for (Pedido p : pedidosAProduzir) {
-				for (Item i : p.getProdutos()) {
-					if (i.getProduto().getNome().equals(query.get("nome"))) {
-						json.put("status", "Produto finalizado com sucesso");
-						i.finalizouProducao();
-						break loop1;
+				if (p.getId().contains(query.get("id"))) {
+					for (Item i : p.getProdutos()) {
+						if (i.getProduto().getNome().concat(" ").equals(query.get("nome"))) {
+							json.put("status", "Produto finalizado com sucesso");
+							i.finalizouProducao();
+							break loop1;
+						} else {
+							System.out.println(query.get("nome") + " - " + i.getProduto().getNome());
+						}
 					}
 				}
 			}
