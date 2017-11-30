@@ -19,6 +19,10 @@ public class Produto implements JsonFormatter {
         this.tipoTampa = tipoTampa;
     }
 
+    public Produto(String nome){
+        this.nome = nome;
+    }
+
     public String getNome() {return this.nome; }
 
     public float getPreco() {return this.preco; }
