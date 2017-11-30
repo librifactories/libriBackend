@@ -30,6 +30,23 @@ public class Pedido implements JsonFormatter {
         return this.produtos;
     }
 
+    public float getCustoProducao() {
+        float custo = 0;
+        for (Item i : produtos) {
+            custo += i.getProduto().getCustoProducao() * i.getQuantidade();
+        }
+        return custo;
+    }
+
+    public float getLucroEsperado() {
+        float lucro = 0;
+        for (Item i : produtos) {
+            lucro += i.getProduto().getPreco() * i.getQuantidade();
+        }
+        lucro -= getCustoProducao();
+        return lucro;
+    }
+
     private void setPrazoEntrega() {
         float tempoEstimado = 0;
         for (Item i : this.getProdutos()) {
@@ -37,6 +54,15 @@ public class Pedido implements JsonFormatter {
         }
         prazoEntrega = Calendar.getInstance();
         prazoEntrega.add(Calendar.DATE, (int) tempoEstimado);
+    }
+
+    private int getTempoEstimado() {
+        float maiorTempo = 0;
+        for (Item i : produtos) {
+            if (i.getProduto().getTempoMedio() > maiorTempo)
+                maiorTempo = i.getProduto().getTempoMedio();
+        }
+        return (int) maiorTempo;
     }
 
     public void calcularPrecoTotal() {
@@ -49,6 +75,14 @@ public class Pedido implements JsonFormatter {
     public void fecharPedido() {
         this.dataCompra = Calendar.getInstance();
         setPrazoEntrega();
+    }
+
+    private boolean faltaMateriaPrima() {
+        for (Item i : produtos) {
+            if (i.getProduto().faltaMateriaPrima())
+                return true;
+        }
+        return false;
     }
 
     public Calendar getPrazoEntrega() {
@@ -70,6 +104,10 @@ public class Pedido implements JsonFormatter {
             jsonProdutos.put(p.toJson());
         }
         obj.put("produtos", jsonProdutos);
+        obj.put("custoProducao", this.getCustoProducao());
+        obj.put("lucroEsperado", this.getLucroEsperado());
+        obj.put("tempoEstimado", this.getTempoEstimado());
+        obj.put("faltaMateriaPrima", this.faltaMateriaPrima());
         System.out.println(obj);
         return obj;
     }

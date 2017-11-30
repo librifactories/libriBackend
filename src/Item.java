@@ -23,6 +23,9 @@ public class Item implements JsonFormatter {
         this.quantidade = quantidade;
     }
 
+    //SOCORRO SOCORRO SOCORRO SOCORRO SOCORRO
+    //ACABOU O CAFÉ ACABOU O CAFÉ ACABOU O CAFÉ
+
     public Produto getProduto() {
         return produto;
     }
@@ -41,9 +44,9 @@ public class Item implements JsonFormatter {
 
     public void finalizouProducao() {
         Float tempoMedio = this.produto.getTempoMedio();
-        Date data_atual = this.data.getTime();
+        Date data = this.data.getTime();
         long DAY = 24L * 60L * 60L * 1000L;
-        float diferenca = (( data_atual.getTime() - Calendar.getInstance().getTime().getTime() ) / DAY);
+        float diferenca = (( data.getTime() - Calendar.getInstance().getTime().getTime() ) / DAY);
         if (tempoMedio == null) {
             this.produto.setTempoMedio(diferenca);
         } else {
