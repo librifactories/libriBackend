@@ -1,56 +1,44 @@
 import org.json.JSONObject;
 
 public class MateriaPrima {
+
     private String nome;
-    private int quant, min, max;
+    private int quantidade;
+    private float preco;
+    private boolean emEstoque;
 
-    public MateriaPrima(String nome, int quant){
+    public MateriaPrima(String nome, int quantidade) {
         this.nome = nome;
-        this.quant = quant;
-    }
-    public MateriaPrima(String nome, int quant, int min, int max){
-        this.nome = nome;
-        this.quant = quant;
-        this.min = min;
-        this.max = max;
+        this.quantidade = quantidade;
+        this.preco = 1;
     }
 
-    public String getNome() {
-        return nome;
+    public boolean estahEmEstoque() {
+        return emEstoque;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public float getPreco() {
+        return this.preco;
     }
 
-    public int getQuant() {
-        return quant;
+    public int getQuantidade() {
+        return this.quantidade;
     }
 
-    public void setQuant(int quant) {
-        this.quant = quant;
+    public String getNome(){
+        return this.nome;
     }
 
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
+    public int getQuant(){
+        return this.quantidade;
     }
 
     public JSONObject toJson() {
-        JSONObject obj = new JSONObject();
-        obj.put("nome", this.nome);
-        obj.put("quantidade", this.quant);
-        return obj;
+        JSONObject json = new JSONObject();
+        json.put("nome", this.nome);
+        json.put("quantidade", this.quantidade);
+        json.put("preco", this.preco);
+        json.put("emEstoque", this.emEstoque);
+        return json;
     }
 }

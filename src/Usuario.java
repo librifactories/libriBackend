@@ -8,7 +8,6 @@ public class Usuario {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
-
     }
 
     public String getUsuario() {

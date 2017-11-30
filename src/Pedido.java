@@ -4,7 +4,6 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 public class Pedido implements JsonFormatter {
 
     private float precoTotal;
@@ -14,7 +13,11 @@ public class Pedido implements JsonFormatter {
 
     public Pedido() {
         this.situacao = "Aguardando entrega";
+        this.setPrazoEntrega();
         this.id = "#" + String.valueOf(new Random().nextInt(10000-1) + 1);
+    }
+    public String getId() {
+        return this.id;
     }
 
     public void adicionarProduto(Item p) {
@@ -23,6 +26,41 @@ public class Pedido implements JsonFormatter {
 
     public List<Item> getProdutos() {
         return this.produtos;
+    }
+
+    public float getCustoProducao() {
+        float custo = 0;
+        for (Item i : produtos) {
+            custo += i.getProduto().getCustoProducao() * i.getQuantidade();
+        }
+        return custo;
+    }
+
+    public float getLucroEsperado() {
+        float lucro = 0;
+        for (Item i : produtos) {
+            lucro += i.getProduto().getPreco() * i.getQuantidade();
+        }
+        lucro -= getCustoProducao();
+        return lucro;
+    }
+
+    private void setPrazoEntrega() {
+        float tempoEstimado = 0;
+        for (Item i : this.getProdutos()) {
+            tempoEstimado = Math.max(tempoEstimado, i.getProduto().getTempoMedio());
+        }
+        prazoEntrega = Calendar.getInstance();
+        prazoEntrega.add(Calendar.DATE, (int) tempoEstimado);
+    }
+
+    private int getTempoEstimado() {
+        float maiorTempo = 0;
+        for (Item i : produtos) {
+            if (i.getProduto().getTempoMedio() > maiorTempo)
+                maiorTempo = i.getProduto().getTempoMedio();
+        }
+        return (int) maiorTempo;
     }
 
     public void calcularPrecoTotal() {
@@ -36,6 +74,19 @@ public class Pedido implements JsonFormatter {
         this.dataCompra = Calendar.getInstance();
         this.prazoEntrega = Calendar.getInstance();
         this.prazoEntrega.add(Calendar.MONTH, 1);
+        setPrazoEntrega();
+    }
+
+    private boolean faltaMateriaPrima() {
+        for (Item i : produtos) {
+            if (i.getProduto().faltaMateriaPrima())
+                return true;
+        }
+        return false;
+    }
+
+    public Calendar getPrazoEntrega() {
+        return prazoEntrega;
     }
 
     @Override
@@ -53,6 +104,10 @@ public class Pedido implements JsonFormatter {
             jsonProdutos.put(p.toJson());
         }
         obj.put("produtos", jsonProdutos);
+        obj.put("custoProducao", this.getCustoProducao());
+        obj.put("lucroEsperado", this.getLucroEsperado());
+        obj.put("tempoEstimado", this.getTempoEstimado());
+        obj.put("faltaMateriaPrima", this.faltaMateriaPrima());
         System.out.println(obj);
         return obj;
     }
