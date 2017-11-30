@@ -20,6 +20,7 @@ public class FORMServer implements Container, Runnable {
 	private static List<Cliente> clientes = new ArrayList<>();
 	private static List<Funcionario> funcionarios = new ArrayList<>();
 	private static List<Pedido> pedidosAProduzir = new ArrayList<>();
+	private static List<Encomenda> encomendas = new ArrayList<>();
 
 	private static ContainerSocketProcessor servidor;
 	private static Connection conexao;
@@ -92,6 +93,16 @@ public class FORMServer implements Container, Runnable {
 			json.put("operacao", "Fechar");
 			body.println(json);
 		}
+	}
+
+	private void opListarEncomendas(Query query, PrintStream body){
+		JSONArray jsonEncomendas = new JSONArray();
+		if(!encomendas.isEmpty()) {
+			for (Encomenda e : encomendas){
+				jsonEncomendas.put(e.toJson());
+			}
+		}
+		body.println(jsonEncomendas);
 	}
 
 	public Usuario autenticarUsuario(Query query) {
@@ -226,6 +237,10 @@ public class FORMServer implements Container, Runnable {
 						usuarioAtual = autenticarUsuario(query);
 						if (usuarioAtual != null) opProdutoFinalizado(query, body, (Funcionario) usuarioAtual);
 						break;
+					case "listarEncomendas":
+						usuarioAtual = autenticarUsuario(query);
+						if (usuarioAtual != null && usuarioAtual instanceof Funcionario) opListarEncomendas(query, body);
+						break;
 				}
 
 			body.close();
@@ -251,6 +266,9 @@ public class FORMServer implements Container, Runnable {
 		funcionarios.add(new Funcionario("ControlePedidos", "123", "Lucas", "ControlePedidos","",""));
 
 		Produto.inicializar();
+		encomendas.add(new Encomenda());
+		encomendas.add(new Encomenda());
+		encomendas.add(new Encomenda());
 
 		System.out.println("Tecle ENTER para interromper o servidor...");
 		System.in.read();

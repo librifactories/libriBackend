@@ -4,7 +4,6 @@ import java.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 public class Pedido implements JsonFormatter {
 
     private float precoTotal;
