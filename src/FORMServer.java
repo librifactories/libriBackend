@@ -237,7 +237,6 @@ public class FORMServer implements Container, Runnable {
 						break;
 					case "listarPedidos":
 						usuarioAtual = autenticarUsuario(query);
-						if (usuarioAtual != null && usuarioAtual instanceof Cliente) opListarPedidos(query, body, (Cliente) usuarioAtual);
 						if (usuarioAtual != null) {
 							if (usuarioAtual instanceof Cliente) {
 								opListarPedidos(query, body, (Cliente) usuarioAtual);
