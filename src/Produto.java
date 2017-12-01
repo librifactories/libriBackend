@@ -29,16 +29,16 @@ public class Produto implements JsonFormatter {
     }
 
     public static void inicializar() {
-        temposMedios.put("Caixas K", 2F);
-        temposMedios.put("Pouche com Ziper 250g", 3F);
-        temposMedios.put("Pouche sem Ziper 250g", 3F);
-        temposMedios.put("Flaconete 1ml", 2F);
-        temposMedios.put("Flaconete 4ml", 2F);
-        temposMedios.put("Flaconete 10ml", 2F);
-        temposMedios.put("Frasco 250ml", 2F);
-        temposMedios.put("Frasco 100ml", 2F);
-        temposMedios.put("Potinho 100g", 2F);
-        temposMedios.put("Potinho 150g", 2F);
+        temposMedios.put("Caixas K", 20F);
+        temposMedios.put("Pouche com Ziper 250g", 30F);
+        temposMedios.put("Pouche sem Ziper 250g", 30F);
+        temposMedios.put("Flaconete 1ml", 20F);
+        temposMedios.put("Flaconete 4ml", 20F);
+        temposMedios.put("Flaconete 10ml", 20F);
+        temposMedios.put("Frasco 250ml", 25F);
+        temposMedios.put("Frasco 100ml", 25F);
+        temposMedios.put("Potinho 100g", 25F);
+        temposMedios.put("Potinho 150g", 25F);
         temposMedios.put("Frasco para Aromatizador 100ml", 4F);
     }
 
