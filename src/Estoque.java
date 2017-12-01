@@ -48,13 +48,18 @@ public class Estoque {
         return false;
     }
 
+    public void setEmEstoque(String nome, boolean emEstoque) {
+        for (MateriaPrima p : materias) {
+            if (p.getNome().equals(nome))
+                p.setEmEstoque(emEstoque);
+        }
+    }
+
     public boolean reduzirQuantidade(String nome, int quantidade) {
-        if (contem(nome, quantidade)) {
-            for (MateriaPrima p : materias) {
-                if (p.getNome().equals(nome)) {
-                    p.reduzirQuantidade(quantidade);
-                    return true;
-                }
+        for (MateriaPrima p : materias) {
+            if (p.getNome().equals(nome)) {
+                System.out.println(p.getQuantidade() - quantidade);
+                return p.reduzirQuantidade(quantidade);
             }
         }
         return false;
