@@ -8,6 +8,7 @@ public class MateriaPrima {
     private boolean emEstoque;
 
 
+
     public MateriaPrima(String nome, int quantidade) {
 
         this.nome = nome;
