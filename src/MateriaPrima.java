@@ -7,7 +7,9 @@ public class MateriaPrima {
     private float preco;
     private boolean emEstoque;
 
+
     public MateriaPrima(String nome, int quantidade) {
+
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = 1;
@@ -41,6 +43,14 @@ public class MateriaPrima {
 
     public int getQuant(){
         return this.quantidade;
+    }
+
+    public void addQuant(int quantidade){
+        this.quantidade += quantidade;
+    }
+
+    public void delQuant(int quantidade){
+        this.quantidade -= quantidade;
     }
 
     public JSONObject toJson() {

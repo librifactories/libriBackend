@@ -10,8 +10,9 @@ public class Estoque {
         if(!materias.isEmpty()){
         while(it.hasNext()){
             MateriaPrima essa = (MateriaPrima) it.next();
-            if(novoProduto.getNome().equals(essa.getNome())){
+            if(novoProduto.getNome().toUpperCase().equals(essa.getNome())){
                 encontrou = true;
+                essa.addQuant(novoProduto.getQuant());
             }
         }
         }
@@ -21,6 +22,17 @@ public class Estoque {
     public void add(MateriaPrima novoProduto){
         if(!setProdutoJaExistente(novoProduto)) {
             materias.add(novoProduto);
+        }
+    }
+
+    public void del(MateriaPrima novoProduto){
+        Iterator it = materias.iterator();
+        while(it.hasNext()){
+            MateriaPrima essa = (MateriaPrima) it.next();
+            if(novoProduto.getNome().toUpperCase().equals(essa.getNome())){
+                essa.delQuant(novoProduto.getQuant());
+                    if(essa.getQuant() <= 0) it.remove();
+            }
         }
     }
 
