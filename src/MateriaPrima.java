@@ -5,13 +5,14 @@ public class MateriaPrima {
     private String nome;
     private int quantidade;
     private float preco;
-    private boolean emEstoque = false;
+    private boolean emEstoque;
 
     public MateriaPrima(String nome, int quantidade) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = 1;
-        if (quantidade > 0) this.emEstoque = true;
+        if (this.quantidade > 0) this.emEstoque = true;
+        else this.emEstoque = false;
     }
 
     public boolean estahEmEstoque() {
@@ -23,9 +24,12 @@ public class MateriaPrima {
         this.emEstoque = emEstoque;
     }
 
-    public void reduzirQuantidade(int quantidade) {
-        if (this.quantidade - quantidade >= 0)
+    public boolean reduzirQuantidade(int quantidade) {
+        if (this.quantidade - quantidade >= 0) {
             this.quantidade -= quantidade;
+            return true;
+        }
+        return false;
     }
 
     public float getPreco() {

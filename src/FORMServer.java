@@ -202,8 +202,10 @@ public class FORMServer implements Container, Runnable {
 		JSONObject json = new JSONObject();
 		boolean possui = false;
 		for (MateriaPrima mp : estoque.getMaterias()) {
-			if (mp.getNome().equals(query.get("nome")) && mp.getQuantidade() > 0)
+			if (mp.getNome().equals(query.get("nome")) && mp.estahEmEstoque()) {
 				possui = true;
+				break;
+			}
 		}
 		if (possui)
 			json.put("emEstoque", true);

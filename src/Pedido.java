@@ -78,7 +78,8 @@ public class Pedido implements JsonFormatter {
         for (Item i : this.produtos) {
             for (MateriaPrima mp : i.getProduto().getMateriasPrimas()) {
                 if (FORMServer.estoque.reduzirQuantidade(mp.getNome(), mp.getQuantidade()))
-                    mp.setEmEstoque(true);
+                    FORMServer.estoque.setEmEstoque(mp.getNome(), true);
+                else FORMServer.estoque.setEmEstoque(mp.getNome(), false);
             }
         }
         setPrazoEntrega();
