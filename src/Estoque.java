@@ -48,14 +48,6 @@ public class Estoque {
         return false;
     }
 
-    public boolean estahEmEstoque(String nome) {
-        for (MateriaPrima p : materias) {
-            if (p.getNome().equals(nome))
-                return p.estahEmEstoque();
-        }
-        return false;
-    }
-
     public void setEmEstoque(String nome, boolean emEstoque) {
         for (MateriaPrima p : materias) {
             if (p.getNome().equals(nome))
