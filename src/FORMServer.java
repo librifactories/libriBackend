@@ -283,6 +283,18 @@ public class FORMServer implements Container, Runnable {
 		conexao = new SocketConnection(servidor);
 		SocketAddress endereco = new InetSocketAddress(porta);
 		conexao.connect(endereco);
+		//Adicionando materias primas fixas
+
+		estoque.add(new MateriaPrima("PET", 300));
+		estoque.add(new MateriaPrima("PVC", 120));
+		estoque.add(new MateriaPrima("Polipropileno", 49));
+		estoque.add(new MateriaPrima("Poliestireno", 92));
+		estoque.add(new MateriaPrima("EVA", 2));
+		estoque.add(new MateriaPrima("Tampa de encaixe", 35));
+		estoque.add(new MateriaPrima("Tampa de rosca com spray", 27));
+		estoque.add(new MateriaPrima("Tampa de rosca com contador", 83));
+		estoque.add(new MateriaPrima("Tampa de rosca", 42));
+
 
 		clientes.add(new Cliente("DarkSider", "123", "Lucas", "Silveira", ""));
 		clientes.add(new Cliente("PinkTree", "123", "Isabela","",""));
