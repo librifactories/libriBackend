@@ -19,6 +19,10 @@ public class Estoque {
         return encontrou;
     }
 
+    public List<MateriaPrima> getMaterias() {
+        return materias;
+    }
+
     public void add(MateriaPrima novoProduto){
         if(!setProdutoJaExistente(novoProduto)) {
             materias.add(novoProduto);

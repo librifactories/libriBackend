@@ -181,7 +181,7 @@ public class FORMServer implements Container, Runnable {
 		MateriaPrima novaMateria = new MateriaPrima(nome, quantidade);
 		estoque.del(novaMateria);
 	}
-
+	
 	public void opProdutoFinalizado(Query query, PrintStream body, Funcionario funcionario) {
 		JSONObject json = new JSONObject();
 		json.put("operacao", "finalizarProduto");
@@ -208,17 +208,10 @@ public class FORMServer implements Container, Runnable {
 
 	public void opChecarMateriaPrima(Query query, PrintStream body) {
 		JSONObject json = new JSONObject();
-		boolean possui = true;
-		sair:
-		for (Cliente c : clientes) {
-			for (Pedido p : c.getPedidos()) {
-				for (Item i : p.getProdutos()) {
-					if (i.getProduto().faltaMateriaPrima(query.get("nome"))) {
-						possui = false;
-						break sair;
-					}
-				}
-			}
+		boolean possui = false;
+		for (MateriaPrima mp : estoque.getMaterias()) {
+			if (mp.getNome().equals(query.get("nome")) && mp.getQuantidade() > 0)
+				possui = true;
 		}
 		if (possui)
 			json.put("emEstoque", true);
