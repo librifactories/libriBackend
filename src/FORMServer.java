@@ -181,7 +181,7 @@ public class FORMServer implements Container, Runnable {
 		MateriaPrima novaMateria = new MateriaPrima(nome, quantidade);
 		estoque.del(novaMateria);
 	}
-	
+
 	public void opProdutoFinalizado(Query query, PrintStream body, Funcionario funcionario) {
 		JSONObject json = new JSONObject();
 		json.put("operacao", "finalizarProduto");
