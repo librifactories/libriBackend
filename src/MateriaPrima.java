@@ -64,7 +64,7 @@ public class MateriaPrima {
         json.put("nome", this.nome);
         json.put("quantidade", this.quantidade);
         json.put("preco", this.preco);
-        json.put("emEstoque", this.estahEmEstoque());
+        json.put("emEstoque", FORMServer.estoque.estahEmEstoque(this.getNome()));
         return json;
     }
 }
