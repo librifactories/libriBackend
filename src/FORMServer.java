@@ -16,7 +16,7 @@ import org.simpleframework.transport.connect.Connection;
 import org.simpleframework.transport.connect.SocketConnection;
 
 public class FORMServer implements Container, Runnable {
-	private static Estoque estoque = new Estoque();
+	public static Estoque estoque = new Estoque();
 	private static List<Cliente> clientes = new ArrayList<>();
 	private static List<Funcionario> funcionarios = new ArrayList<>();
 	private static List<Pedido> pedidosAProduzir = new ArrayList<>();
@@ -197,6 +197,27 @@ public class FORMServer implements Container, Runnable {
 		body.println(json);
 	}
 
+	public void opChecarMateriaPrima(Query query, PrintStream body) {
+		JSONObject json = new JSONObject();
+		boolean possui = true;
+		sair:
+		for (Cliente c : clientes) {
+			for (Pedido p : c.getPedidos()) {
+				for (Item i : p.getProdutos()) {
+					if (i.getProduto().faltaMateriaPrima(query.get("nome"))) {
+						possui = false;
+						break sair;
+					}
+				}
+			}
+		}
+		if (possui)
+			json.put("emEstoque", true);
+		else
+			json.put("emEstoque", false);
+		body.println(json);
+	}
+
 	public void handle(Request request, Response response) {
 		try {
 			if (LIBRIGUI.thread.isInterrupted()) {
@@ -267,6 +288,9 @@ public class FORMServer implements Container, Runnable {
                     case "addProdutosEstoque":
 				        opAddProdutosEstoque(query, body);
 				        break;
+					case "checarMateriaPrima":
+						opChecarMateriaPrima(query, body);
+						break;
 				}
 
 			body.close();

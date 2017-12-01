@@ -16,6 +16,7 @@ public class Pedido implements JsonFormatter {
         this.setPrazoEntrega();
         this.id = "#" + String.valueOf(new Random().nextInt(10000-1) + 1);
     }
+
     public String getId() {
         return this.id;
     }
@@ -74,6 +75,12 @@ public class Pedido implements JsonFormatter {
         this.dataCompra = Calendar.getInstance();
         this.prazoEntrega = Calendar.getInstance();
         this.prazoEntrega.add(Calendar.MONTH, 1);
+        for (Item i : this.produtos) {
+            for (MateriaPrima mp : i.getProduto().getMateriasPrimas()) {
+                if (FORMServer.estoque.reduzirQuantidade(mp.getNome(), mp.getQuantidade()))
+                    mp.setEmEstoque(true);
+            }
+        }
         setPrazoEntrega();
     }
 

@@ -24,6 +24,26 @@ public class Estoque {
         }
     }
 
+    public boolean contem(String nome, int quantidade) {
+        for (MateriaPrima p : materias) {
+            if (p.getNome().equals(nome) && p.getQuantidade() >= quantidade)
+                return true;
+        }
+        return false;
+    }
+
+    public boolean reduzirQuantidade(String nome, int quantidade) {
+        if (contem(nome, quantidade)) {
+            for (MateriaPrima p : materias) {
+                if (p.getNome().equals(nome)) {
+                    p.reduzirQuantidade(quantidade);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void delAll(){
         materias.clear();
     }

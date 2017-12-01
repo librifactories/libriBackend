@@ -14,7 +14,17 @@ public class MateriaPrima {
     }
 
     public boolean estahEmEstoque() {
+        //return FORMServer.estoque.contem(this.nome, this.quantidade);
         return emEstoque;
+    }
+
+    public void setEmEstoque(boolean emEstoque) {
+        this.emEstoque = emEstoque;
+    }
+
+    public void reduzirQuantidade(int quantidade) {
+        if (this.quantidade - quantidade >= 0)
+            this.quantidade -= quantidade;
     }
 
     public float getPreco() {
@@ -38,7 +48,7 @@ public class MateriaPrima {
         json.put("nome", this.nome);
         json.put("quantidade", this.quantidade);
         json.put("preco", this.preco);
-        json.put("emEstoque", this.emEstoque);
+        json.put("emEstoque", this.estahEmEstoque());
         return json;
     }
 }
