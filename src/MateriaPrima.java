@@ -5,12 +5,13 @@ public class MateriaPrima {
     private String nome;
     private int quantidade;
     private float preco;
-    private boolean emEstoque;
+    private boolean emEstoque = false;
 
     public MateriaPrima(String nome, int quantidade) {
         this.nome = nome;
         this.quantidade = quantidade;
         this.preco = 1;
+        if (quantidade > 0) this.emEstoque = true;
     }
 
     public boolean estahEmEstoque() {
