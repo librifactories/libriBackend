@@ -87,8 +87,10 @@ public class Pedido implements JsonFormatter {
 
     private boolean faltaMateriaPrima() {
         for (Item i : produtos) {
-            if (i.getProduto().faltaMateriaPrima())
-                return true;
+            for (MateriaPrima mp : i.getProduto().getMateriasPrimas()) {
+                if (!FORMServer.estoque.estahEmEstoque(mp.getNome()))
+                    return true;
+            }
         }
         return false;
     }
