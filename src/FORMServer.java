@@ -174,6 +174,14 @@ public class FORMServer implements Container, Runnable {
         estoque.add(novaMateria);
     }
 
+    public void opDelProdutosEstoque(Query query, PrintStream body){
+		String nome = query.get("nome");
+		String quant = query.get("quantidade");
+		int quantidade = Integer.parseInt(quant);
+		MateriaPrima novaMateria = new MateriaPrima(nome, quantidade);
+		estoque.del(novaMateria);
+	}
+	
 	public void opProdutoFinalizado(Query query, PrintStream body, Funcionario funcionario) {
 		JSONObject json = new JSONObject();
 		json.put("operacao", "finalizarProduto");
@@ -286,6 +294,9 @@ public class FORMServer implements Container, Runnable {
 				        break;
 					case "checarMateriaPrima":
 						opChecarMateriaPrima(query, body);
+						break;
+					case "delProdutosEstoque":
+						opDelProdutosEstoque(query, body);
 						break;
 				}
 
